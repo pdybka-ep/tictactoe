@@ -1,0 +1,121 @@
+<div class="container">
+
+    <div class="row" ng-if="errorMessage != null">
+        <div class="alert alert-success">{{successMessage}}</div>
+    </div>
+
+
+    <div class="row">
+
+        <!-- FORM for creating new game -->
+        <div class="col-md-6">
+
+            <h2 class="lead">New game</h2>
+            <form name="createNewBoard" class="form-horizontal" novalidate ng-submit="createNewGame()">
+
+
+                <div class="form-group">
+                    <label for="gameType" class="col-md-2 control-label">Game type:</label>
+                    <div class="col-md-8">
+                        <select required class="form-control" name="gameType" id="gameType"
+                                ng-model="newGameData.gameType">
+                            <option ng-repeat="option in newGameOptions.availableGameTypes" value="{{option.name}}">{{option.name}}</option>
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="piece" class="col-md-2 control-label">Play as:</label>
+                    <div class="col-md-8">
+                        <select required class="form-control" name="piece" id="piece"
+                                ng-model="newGameData.piece">
+                            <option ng-repeat="option in newGameOptions.availablePieces" value="{{option.name}}">{{option.name}}</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-6" style="padding-bottom:50px">
+                        <button type="submit" class="btn btn-md btn-primary" ng-disabled="createNewGame.$invalid">
+                            <span class="glyphicon glyphicon-plus"></span> New Game </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- JOIN EXISITNG GAME -->
+        <div class="col-md-6" ng-controller="gamesToJoinController">
+
+                <table class="table table-hover table-striped table-condensed" ng-show="gamesToJoin.length">
+                    <h2 class="lead">Join existing game</h2>
+                    <thead>
+                        <td>Started player</td>
+                        <td>Game status</td>
+                        <td>Created</td>
+                        <td></td>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="game in gamesToJoin">
+                        <td>{{game.firstPlayer.userName}}</td>
+                        <td>{{game.gameStatus}}</td>
+                        <td>{{game.created | date:'MM-dd-yyyy HH:mm:ss'}}</td>
+                        <td>
+                            <button type="submit" class="btn btn-sm" ng-click="joinGame(game.id)">
+                            <span class="glyphicon glyphicon-plus"></span> Join </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            <div ng-show="!gamesToJoin.length">
+                No games to join.
+            </div>
+
+        </div>
+
+        <!-- PLAYER GAMES -->
+        <div class="col-md-6" ng-controller="playerGamesController">
+
+            <table class="table table-hover table-striped table-condensed" ng-show="playerGames.length">
+                <h2 class="lead">My games</h2>
+                <thead>
+                <td>Started player</td>
+                <td>Second player</td>
+                <td>Game status</td>
+                <td>Created</td>
+                <td></td>
+                </thead>
+                <tbody>
+                <tr ng-repeat="game in playerGames">
+                    <td>{{game.firstPlayer.userName}}</td>
+                    <td>
+                        <span ng-if="!game.player.userName">
+                            COMPUTER
+                        </span>
+                        <span ng-if="game.player.userName != ''">
+                            {{game.secondPlayer.userName}}
+                        </span>
+                    </td>
+                    <td>{{game.gameStatus}}</td>
+                    <td>{{game.created | date:'MM-dd-yyyy HH:mm:ss'}}</td>
+                    <td>
+                        <button class="btn btn-sm" ng-click="loadGame(game.id)">
+                            <span class="glyphicon glyphicon-plus"></span> Load game </button>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div ng-show="!playerGames.length">
+                No games.
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

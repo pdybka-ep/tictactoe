@@ -1,0 +1,47 @@
+
+<div class="row">
+    <div class="col-md-6">
+
+    <div class="gameon">
+        <!--<div class="messageContainer" ng-show="game.gameover">-->
+            <!--<div class="winmessage">{{game.winmessage}}<br/> GAME OVER</div>-->
+        <!--</div>-->
+
+        <div class="tableContainer">
+            <div class="gametable">
+                <div ng-repeat="row in rows" class="tablerow">
+                    <div id="{{column.id}}" class="{{column.class}}" ng-repeat="column in row" >
+                        <div ng-click="markPlayerMove(column)" class="boxContent{{column.letter}}"> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="col-md-6">
+    <div>
+
+        <table class="table table-hover table-striped table-condensed" ng-show="movesInGame.length">
+            <h2 class="lead">History of moves in the game</h2>
+            <thead>
+            <td>Player</td>
+            <td>Position</td>
+            <td>Move created</td>
+            </thead>
+            <tbody>
+                <tr ng-repeat="move in movesInGame">
+                    <td>{{move.userName}}</td>
+                    <td>Board row: {{move.boardRow}}, Board column: {{move.boardColumn}}</td>
+                    <td>{{move.created | date:'MM-dd-yyyy HH:mm:ss'}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div ng-show="!movesInGame.length">
+                    No moves yet.
+                </div>
+
+    </div>
+</div>
+</div>
